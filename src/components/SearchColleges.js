@@ -51,7 +51,6 @@ const suggestions = [
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-
     },
     input: {
         padding: theme.spacing(1, 1, 1, 7),
@@ -237,18 +236,15 @@ const components = {
     DropdownIndicator: null,
 };
 
-export default function IntegrationReactSelect() {
+export default function SearchColleges({ saveCollege }) {
     const classes = useStyles();
     const theme = useTheme();
-    const [single, setSingle] = React.useState(null);
-    const [multi, setMulti] = React.useState(null);
+    const [value, setValue] = React.useState('');
 
-    function handleChangeSingle(value) {
-        setSingle(value);
-    }
-
-    function handleChangeMulti(value) {
-        setMulti(value);
+    function handleChangeValue(value) {
+        const collegeName = value.label;
+        saveCollege(collegeName);
+        setValue(''); // clear search field after college has been chosen
     }
 
     const selectStyles = {
@@ -267,14 +263,14 @@ export default function IntegrationReactSelect() {
                 <Select
                     classes={classes}
                     styles={selectStyles}
-                    inputId="react-select-single"
+                    inputId="react-select-value"
                     TextFieldProps={{
-                        placeholder: 'Search a country (start with a)',
+                        placeholder: 'Find a college',
                     }}
                     options={suggestions}
                     components={components}
-                    value={single}
-                    onChange={handleChangeSingle}
+                    value={value}
+                    onChange={handleChangeValue}
                 />
             </NoSsr>
         </div>

@@ -1,16 +1,16 @@
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import SearchColleges from './components/SearchColleges';
+import React, { useState } from 'react';
 import NavigationMenu from './components/NavigationMenu';
+import SearchColleges from './components/SearchColleges';
 import CollegeList from './components/CollegeList';
 import AddDeadlinesToCalendar from './components/AddDeadlinesToCalendar';
-import './App.css';
+import useCollegeState from './utils/useCollegeState';
 
 function App() {
+  const { colleges, addCollege, deleteCollege } = useCollegeState([]);
   return (
     <>
-      <NavigationMenu />
-      <CollegeList />
+      <SearchColleges saveCollege={addCollege} />
+      <CollegeList colleges={colleges} deleteCollege={deleteCollege} />
       <AddDeadlinesToCalendar />
     </>
   );

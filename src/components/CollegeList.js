@@ -1,15 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,7 +32,7 @@ function generate(element) {
     );
 }
 
-export default function InteractiveList() {
+export default function CollegeList({ colleges, deleteCollege }) {
     const classes = useStyles();
     return (
         <Container fluid="true" className={classes.root}>
@@ -40,22 +40,25 @@ export default function InteractiveList() {
                 <Grid item xs={12} md={6}>
                     <div className={classes.demo}>
                         <List>
-                            {generate(
-                                <ListItem disableGutters divider>
-                                    <ListItemAvatar>
-                                        <Avatar>H</Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary="Single-line item"
-                                        secondary='Secondary text'
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="Delete">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            )}
+                            {colleges.map((college, index) => {
+                                const initials = college.split(" ").map((n) => n[0]).join('');
+                                return (
+                                    <ListItem disableGutters divider key={index}>
+                                        <ListItemAvatar>
+                                            <Avatar>{initials}</Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={college}
+                                            secondary='Secondary text'
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <IconButton edge="end" aria-label="Delete" onClick={() => deleteCollege(index)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                )
+                            })}
                         </List>
                     </div>
                 </Grid>

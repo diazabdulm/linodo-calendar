@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function NavigationMenu() {
+export default function NavigationMenu({saveCollege}) {
     const classes = useStyles();
 
     return (
@@ -83,7 +83,7 @@ export default function NavigationMenu() {
                         <div className={classes.searchIcon}>
                             <SearchIcon />
                         </div>
-                        <SearchColleges />
+                        <SearchColleges saveCollege={console.log} />
                     </div>
                 </Toolbar>
             </AppBar>
