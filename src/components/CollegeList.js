@@ -35,7 +35,7 @@ function generate(element) {
 export default function InteractiveList() {
     const classes = useStyles();
     return (
-        <Container fluid className={classes.root}>
+        <Container fluid="true" className={classes.root}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <div className={classes.demo}>

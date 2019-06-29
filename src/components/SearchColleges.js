@@ -1,14 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
 import Select from 'react-select';
-import { emphasize, makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
-import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import CancelIcon from '@material-ui/icons/Cancel';
 import PropTypes from 'prop-types';
 
 const suggestions = [
@@ -54,12 +51,18 @@ const suggestions = [
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        height: 250,
+
     },
     input: {
-        display: 'flex',
-        padding: 0,
-        height: 'auto',
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 120,
+            '&:focus': {
+                width: 200,
+            },
+        },
     },
     valueContainer: {
         display: 'flex',
@@ -74,11 +77,12 @@ const useStyles = makeStyles(theme => ({
     singleValue: {
         fontSize: 16,
     },
-    placeholder: {
+    paper: {
         position: 'absolute',
-        left: 2,
-        bottom: 6,
-        fontSize: 16,
+        zIndex: 1,
+        marginTop: theme.spacing(1),
+        left: 0,
+        right: 0,
     },
     divider: {
         height: theme.spacing(2),
@@ -208,22 +212,43 @@ ValueContainer.propTypes = {
     selectProps: PropTypes.object.isRequired,
 };
 
+function Menu(props) {
+    return (
+        <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
+            {props.children}
+        </Paper>
+    );
+}
+
+Menu.propTypes = {
+    children: PropTypes.node,
+    innerProps: PropTypes.object,
+    selectProps: PropTypes.object,
+};
+
 const components = {
     Control,
+    Menu,
     NoOptionsMessage,
     Option,
     Placeholder,
     SingleValue,
     ValueContainer,
+    DropdownIndicator: null,
 };
 
-export default function SearchColleges() {
+export default function IntegrationReactSelect() {
     const classes = useStyles();
     const theme = useTheme();
     const [single, setSingle] = React.useState(null);
+    const [multi, setMulti] = React.useState(null);
 
     function handleChangeSingle(value) {
         setSingle(value);
+    }
+
+    function handleChangeMulti(value) {
+        setMulti(value);
     }
 
     const selectStyles = {
@@ -239,16 +264,11 @@ export default function SearchColleges() {
     return (
         <div className={classes.root}>
             <NoSsr>
-                <InputBase
+                <Select
                     classes={classes}
                     styles={selectStyles}
                     inputId="react-select-single"
                     TextFieldProps={{
-                        label: 'Country',
-                        InputLabelProps: {
-                            htmlFor: 'react-select-single',
-                            shrink: true,
-                        },
                         placeholder: 'Search a country (start with a)',
                     }}
                     options={suggestions}
